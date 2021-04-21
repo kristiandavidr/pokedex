@@ -1,4 +1,4 @@
-import 'package:pokedex/bloc/pokemon_details_cubit.dart';
+import 'package:pokedex/bloc/blocapi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

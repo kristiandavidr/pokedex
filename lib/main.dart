@@ -1,11 +1,10 @@
-import 'package:pokedex/app_navigator.dart';
-import 'package:pokedex/bloc/nav_cubit.dart';
-import 'package:pokedex/bloc/pokemon_bloc.dart';
-import 'package:pokedex/bloc/pokemon_details_cubit.dart';
-import 'package:pokedex/bloc/pokemon_event.dart';
-import 'package:pokedex/pokemon.dart';
+
+import 'package:pokedex/bloc/apibloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:pokedex/widgets/pokemon.dart';
+import 'package:pokedex/widgets/pokedetail.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,5 +28,23 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => pokemonDetailsCubit)
       ], child: AppNavigator()),
     );
+  }
+}
+
+class AppNavigator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<NavCubit, int>(builder: (context, pokemonId) {
+      return Navigator(
+        pages: [
+          MaterialPage(child: Pokedex()),
+          if (pokemonId != null) MaterialPage(child: PokemonDetailsView())
+        ],
+        onPopPage: (route, result) {
+          BlocProvider.of<NavCubit>(context).popToPokedex();
+          return route.didPop(result);
+        },
+      );
+    });
   }
 }
